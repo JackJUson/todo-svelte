@@ -1,5 +1,9 @@
 <script>
-	let toDoList = [1, 2, { content: 'Grind or go home!', editing: true, checked: true }]; // Arry of ToDos
+	let toDoList = [1, 2, { content: 'Grind or go home!', editing: true, checked: true }]; // Aarry of ToDos
+
+  function setEditing(i, isEditing) {
+    toDoList[i].editing = isEditing; // true or false
+  }
 </script>
 
 <svelte:head>
@@ -20,13 +24,17 @@
 {#each toDoList as toDo, i}
 	<div style="display: flex; align-items: baseline; width: 700px; margin: 0 auto;">
 		{#if toDo.editing}
-			<input type="text" />
+			<input type="text" bind:value={toDo.content} />
 		{:else}
 			<input type="checkbox" bind:checked={toDo.checked} />
-			<h4 style="flex-grow: 1">Grind everyday!!!!!</h4>
+			<h4 style="flex-grow: 1">{toDo.content}</h4>
 		{/if}
 		<div style="display: flex;">
-			<button style="margin-left: 24px;">Edit</button>
+      {#if toDo.editing}
+			<button on:click={() => setEditing(i, false)} style="margin-left: 24px;">Save</button>
+      {:else}
+			<button on:click={() => setEditing(i, true)} style="margin-left: 24px;">Edit</button>
+      {/if}
 			<button style="margin-left: 24px;">Delete</button>
 		</div>
 	</div>
