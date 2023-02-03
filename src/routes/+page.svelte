@@ -4,6 +4,11 @@
   function setEditing(i, isEditing) {
     toDoList[i].editing = isEditing; // true or false
   }
+
+  function deleteToDo(i) {
+    toDoList.splice(i, 1);
+    toDoList = toDoList; // Svelte data updating
+  }
 </script>
 
 <svelte:head>
@@ -35,7 +40,7 @@
       {:else}
 			<button on:click={() => setEditing(i, true)} style="margin-left: 24px;">Edit</button>
       {/if}
-			<button style="margin-left: 24px;">Delete</button>
+			<button on:click={() => deleteToDo(i)} style="margin-left: 24px;">Delete</button>
 		</div>
 	</div>
 {/each}
