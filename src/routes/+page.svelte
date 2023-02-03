@@ -1,14 +1,19 @@
 <script>
-	let toDoList = [1, 2, { content: 'Grind or go home!', editing: true, checked: true }]; // Aarry of ToDos
+	let toDoList = []; // Array of ToDos
+	let textInput = '';
 
-  function setEditing(i, isEditing) {
-    toDoList[i].editing = isEditing; // true or false
-  }
+	function addToDo() {
+		toDoList = [...toDoList, { content: textInput, editing: false, checked: false }];
+	}
 
-  function deleteToDo(i) {
-    toDoList.splice(i, 1);
-    toDoList = toDoList; // Svelte data updating
-  }
+	function setEditing(i, isEditing) {
+		toDoList[i].editing = isEditing; // true or false
+	}
+
+	function deleteToDo(i) {
+		toDoList.splice(i, 1);
+		toDoList = toDoList; // Svelte data updating
+	}
 </script>
 
 <svelte:head>
@@ -20,8 +25,8 @@
 	<h2 style="text-align: center;">ToDo List</h2>
 	<p>Enter your ToDo here</p>
 	<div style="display: flex;">
-		<input type="text" />
-		<button style="width: 200px; margin-left: 24px;">Add</button>
+		<input type="text" bind:value={textInput} />
+		<button style="width: 200px; margin-left: 24px;" on:click={addToDo}>Add</button>
 	</div>
 </div>
 
@@ -35,11 +40,11 @@
 			<h4 style="flex-grow: 1">{toDo.content}</h4>
 		{/if}
 		<div style="display: flex;">
-      {#if toDo.editing}
-			<button on:click={() => setEditing(i, false)} style="margin-left: 24px;">Save</button>
-      {:else}
-			<button on:click={() => setEditing(i, true)} style="margin-left: 24px;">Edit</button>
-      {/if}
+			{#if toDo.editing}
+				<button on:click={() => setEditing(i, false)} style="margin-left: 24px;">Save</button>
+			{:else}
+				<button on:click={() => setEditing(i, true)} style="margin-left: 24px;">Edit</button>
+			{/if}
 			<button on:click={() => deleteToDo(i)} style="margin-left: 24px;">Delete</button>
 		</div>
 	</div>
